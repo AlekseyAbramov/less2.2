@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Загрузка файла с тестом</title>
+    <nav>
+        <ul>
+            <li><a href="list.php">Список тестов</a></li>
+            <li><a href="test.php">Пройти тест</a></li>
+        </ul>
+    </nav>
+    </head>
+    <body>
+        <?php
+        $uploads_dir = __DIR__ . DIRECTORY_SEPARATOR. "test". DIRECTORY_SEPARATOR ;
+        $tmp_name = $_FILES['myfile']['tmp_name'];
+        $name = basename($_FILES['myfile']['name']);
+        if (isset($_FILES['myfile']['name']) && !empty($_FILES['myfile']['name'])){
+            if ($_FILES['myfile']['error'] == UPLOAD_ERR_OK && $_FILES['myfile']['type'] == "application/json"){
+                move_uploaded_file($tmp_name, $name);
+                
+                $string = file_get_contents($name);
+                $data = json_decode($string);
+
+                switch (json_last_error()) {
+                  case JSON_ERROR_NONE:
+                     $data_error = '';
+                  break;
+                  case JSON_ERROR_DEPTH:
+                     $data_error = 'Достигнута максимальная глубина стека, загрузите другой файл';
+                  break;
+                  case JSON_ERROR_STATE_MISMATCH:
+                       $data_error = 'Неверный или не корректный JSON, загрузите другой файл';
+                  break;
+                  case JSON_ERROR_CTRL_CHAR:
+                    $data_error = 'Ошибка управляющего символа, возможно верная кодировка, загрузите другой файл';
+                  break;
+                  case JSON_ERROR_SYNTAX:
+                   $data_error = 'Синтаксическая ошибка, загрузите другой файл';
+                   break;
+                  case JSON_ERROR_UTF8:
+                    $data_error = 'Некорректные символы UTF-8, возможно неверная кодировка, загрузите другой файл';
+                   break;	
+                  default:
+                      $data_error = 'Неизвестная ошибка, загрузите другой файл';
+                   break;
+                }
+
+                  if($data_error !=''){
+                      echo $data_error;
+                      unlink($name);
+                 }
+
+            $new_test = $uploads_dir. $name;
+            $data1 = json_decode($string, true);
+            if (isset($data1['question'], $data1['answers'], $data1['correct_answer'])){
+                 rename($name, $new_test);
+                 echo "Файл с тестами загружен";
+            }
+             else {
+                 unlink($name);
+                 echo "Ошибка: файл не соответствует шаблону";
+             }
+            }
+            else {
+                echo "<p>Ошибка: файл с тестами не загружен<p>";
+            }
+        }
+         
+        
+
+        
+        ?>
+        
+        <form method="post" enctype="multipart/form-data">
+            Файл <input type="file" name="myfile">
+            <input type="submit" value="Отправить">
+        </form>
+    </body>
+</html>
