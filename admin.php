@@ -5,7 +5,7 @@
         <title>Загрузка файла с тестом</title>
     <nav>
         <ul>
-            <li><a href="list.php">Список тестов</a></li>
+            <li><a href="list.php">Выбрать тест</a></li>
             <li><a href="test.php">Пройти тест</a></li>
         </ul>
     </nav>
@@ -13,10 +13,11 @@
     <body>
         <?php
         $uploads_dir = __DIR__ . DIRECTORY_SEPARATOR. "test". DIRECTORY_SEPARATOR ;
-        $tmp_name = $_FILES['myfile']['tmp_name'];
-        $name = basename($_FILES['myfile']['name']);
+
         if (isset($_FILES['myfile']['name']) && !empty($_FILES['myfile']['name'])){
             if ($_FILES['myfile']['error'] == UPLOAD_ERR_OK && $_FILES['myfile']['type'] == "application/json"){
+                $tmp_name = $_FILES['myfile']['tmp_name'];
+                $name = basename($_FILES['myfile']['name']);
                 move_uploaded_file($tmp_name, $name);
                 
                 $string = file_get_contents($name);
@@ -50,26 +51,16 @@
                       echo $data_error;
                       unlink($name);
                  }
-
-            $new_test = $uploads_dir. $name;
-            $data1 = json_decode($string, true);
-            if (isset($data1['question'], $data1['answers'], $data1['correct_answer'])){
-                 rename($name, $new_test);
-                 echo "Файл с тестами загружен";
-            }
-             else {
-                 unlink($name);
-                 echo "Ошибка: файл не соответствует шаблону";
-             }
+                 else {
+                     $new_test = $uploads_dir. $name;
+                     rename($name, $new_test);
+                     echo "Файл с тестами загружен";
+                       }
             }
             else {
                 echo "<p>Ошибка: файл с тестами не загружен<p>";
             }
         }
-         
-        
-
-        
         ?>
         
         <form method="post" enctype="multipart/form-data">
