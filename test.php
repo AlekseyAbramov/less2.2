@@ -45,17 +45,19 @@ and open the template in the editor.
         <?php
         $s = 1;
         $m = 0;
-        foreach ($data as $value){
-            if ($value['correct_answer'] == $_POST['Q'.$s]){
-                echo 'Ответ на вопрос '. $s. ' правильный'. '<br>';
-                $m = $m + 1;
-            }
-            else {
-               echo 'Ответ на вопрос '. $s. ' не правильный'. '<br>'; 
-            }
-            $s = $s + 1;
+        if (!empty($_POST)){
+            foreach ($data as $value){
+               if ($value['correct_answer'] == $_POST['Q'.$s]){
+                  echo 'Ответ на вопрос '. $s. ' правильный'. '<br>';
+                   $m = $m + 1;
+               }
+               else {
+                  echo 'Ответ на вопрос '. $s. ' не правильный'. '<br>'; 
+               }
+             $s = $s + 1;
+             }
+             echo 'Всего правильных ответов '. $m;
         }
-        echo 'Всего правильных ответов '. $m;
         ?>
     </body>
 </html>
