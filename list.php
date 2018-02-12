@@ -19,7 +19,7 @@
         foreach ($filelist as $value){
             $string = file_get_contents($value);
             $data = json_decode($string, TRUE);
-            echo "<a href='test.php?test=". $value. "'> Тест ". $n. ": ".  $data[0]['main']. "</a>";
+            echo "<a href='test.php?test=". $value. "'> Тест ". $n. ": ".  $data[0]['main']. "</a>". "<br>";
             $n = $n + 1;
             }
         ?>

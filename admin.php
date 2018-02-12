@@ -67,5 +67,31 @@
             Файл <input type="file" name="myfile">
             <input type="submit" value="Отправить">
         </form>
+        <p><strong>Пример JSON файла:</strong></p>
+        <code>
+[{
+     "main":"Столицы государств",
+     "question": "Столица России?",
+     "answers": 
+        {
+        "1": "1. Париж",
+        "2": "2. Вашингтон",
+        "3": "3. Питер",
+        "4": "4. Москва"
+        },
+     "correct_answer": "4"
+},
+{
+     "question": "Столица Франции?",
+     "answers": 
+        {
+        "1": "1. Париж",
+        "2": "2. Вашингтон",
+        "3": "3. Питер",
+        "4": "4. Москва"
+        },
+     "correct_answer": "1"
+}]
+        </code>
     </body>
 </html>

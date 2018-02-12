@@ -18,13 +18,14 @@ and open the template in the editor.
     <body>
         <?php
          if (!empty($_GET["test"])) 
-             { echo " Вы проходите тест - ".$_GET["test"];} 
+             { echo " Вы проходите тест: ";} 
          else { echo "Переменные не дошли. Проверьте все еще раз."; }
          $name = $_GET["test"];
          $dir = __DIR__ . DIRECTORY_SEPARATOR. "test";
          chdir($dir);
          $string = file_get_contents($name);
          $data = json_decode($string, TRUE);
+         echo $data[0]['main'];
         ?>
         <form method="post" enctype="multipart/form-data">
             <?php
