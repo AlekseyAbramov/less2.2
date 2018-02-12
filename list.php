@@ -16,8 +16,10 @@
         chdir($dir);
         $filelist = glob("*.json");
         $n = 1;
-        foreach ($filelist as $value) 
-            {echo "<a href='test.php?test=". $value. "'> Тест ". $n. "</a>";
+        foreach ($filelist as $value){
+            $string = file_get_contents($value);
+            $data = json_decode($string, TRUE);
+            echo "<a href='test.php?test=". $value. "'> Тест ". $n. ": ".  $data[0]['main']. "</a>";
             $n = $n + 1;
             }
         ?>
