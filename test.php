@@ -19,7 +19,7 @@ and open the template in the editor.
         <?php
          if (!empty($_GET["test"])) 
              { echo " Вы проходите тест: ";} 
-         else { echo "Переменные не дошли. Проверьте все еще раз."; }
+         else { echo "Выберите тест по ссылке в меню."; exit;}
          $name = $_GET["test"];
          $dir = __DIR__ . DIRECTORY_SEPARATOR. "test";
          chdir($dir);
